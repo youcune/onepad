@@ -1,0 +1,14 @@
+CACHE MANIFEST
+
+# Version: 3.00111
+# キャッシュマニフェスト
+
+CACHE:
+/dev/static/pad.js
+/dev/static/style.css
+http://code.jquery.com/jquery-1.6.4.min.js
+
+NETWORK:
+/dev/load.cgi
+/dev/save.cgi
+

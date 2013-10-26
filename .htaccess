@@ -1,0 +1,8 @@
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /
+	RewriteRule ^([A-Za-z0-9]+/)?new$ $1/new.cgi [L]
+	RewriteRule ^([A-Za-z0-9]+/)?([A-Za-z0-9]{10})$ $1/edit.cgi?pid=$2 [L]
+	RewriteRule ^([A-Za-z0-9]+/)?([A-Za-z0-9]{10})/([0-9]+)$ $1/edit.cgi?pid=$2;rev=$3 [L]
+	RewriteRule ^([A-Za-z0-9]+/)?([A-Za-z0-9]{10})/history$ $1/history.cgi?pid=$2 [L]
+</IfModule>

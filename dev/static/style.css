@@ -1,0 +1,131 @@
+@charset "UTF-8";
+
+*{
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	border-width: 0;
+	margin: 0;
+	padding: 0;
+}
+body{
+	color: #ffffff;
+	background: #00ccff;
+	padding: 0 8px;
+}
+h1, #footer, #count, button{
+	/* system font */
+	font-family: Verdana-Bold, Verdana, sans-serif;
+	font-weight: bold;
+	line-height: 1.2;
+	overflow: hidden;
+}
+h1, #footer{
+	height: 40px;
+}
+h1{
+	margin-left: 10px;
+	font-size: 44px;
+}
+h1 a{
+	color: #ffffff;
+}
+h1 a:hover{
+	color: #ffffcc;
+}
+#codename{
+	vertical-align: top;
+	font-size: 20px;
+}
+h2{
+	font-size: 100%;
+}
+p, ul{
+	line-height: 1.2;
+	margin: 0.5em 0;
+}
+p a{
+	color: #0000ff;
+}
+a:hover{
+	color: #ff0000;
+	cursor: pointer ! important;
+}
+ul{
+	margin-left: 1em;
+}
+li{
+	font-weight: normal;
+	list-style: disc inside;
+}
+p + h2, ul + h2{
+	margin-top: 1em;
+}
+form{
+	line-height: 0;
+}
+#textarea, #textdiv{
+	background: #ffffff;
+	border-radius: 10px;
+	color: #333333;
+	cursor: text;
+	font-size: 1em;
+	font-weight: normal;
+	font-family: HiraKakuProN-W3, 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', sans-serif;
+	line-height: 1.2;
+	width: 100%;
+	margin: 1px 0;
+	padding: 8px;
+}
+#textarea{
+	
+}
+#textdiv{
+
+}
+#textarea, .editable{
+	background: #ffffcc ! important;
+}
+button{
+	border-radius: 10px;
+	cursor: pointer;
+	font-size: 20px;
+	height: 24px;
+	margin: 8px 0;
+}
+#save{
+	width: 120px;
+}
+#load{
+	width: 80px;
+}
+button.active{
+	color: #00cc33;
+	background: #ffffff;
+}
+button.inactive{
+	color: #666666;
+	background: #ffffff;
+}
+button.error{
+	color: #ff0000;
+	background: #ffffff;
+}
+button:hover{
+	background: #ffffcc;
+}
+#count{
+	font-size: 42px;
+	float: right;
+}
+.warning{
+	color: #ff0000 ! important;
+}
+.history{
+	margin: 0.5em 0;
+}
+.history .text{
+	color: #666666;
+	font-size: 80%;
+}
