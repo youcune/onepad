@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <%= stylesheet_link_tag 'style' %>
+  <%= stylesheet_link_tag 'pictonic' %>
+  <link href="/images/favicon.png" rel="shortcut icon">
+  <link href="/images/apple-touch-icon.png" rel="apple-touch-icon">
+  <%= javascript_include_tag '/js/jquery-2.0.3.min.js' %>
+  <%= javascript_include_tag 'script' %>
+  <%= javascript_tag do %>
+    json = <%= raw @pad.to_json %>
+  <% end %>
+  <title>OnePad</title>
+</head>
+<body>
+<header>
+  <h1><%= link_to 'OnePad', root_path %><sup>2</sup></h1>
+</header>
+<article>
+  <p>
+    <%= @pad.content %>
+  </p>
+</article>
+<form>
+  <textarea><%= @pad.content %></textarea>
+</form>
+<footer>
+  <div id="count">9999</div>
+  <button id="edit" class="active"><span class="icon-edit"></span></button>
+  <button id="history" class="disabled"><span class="icon-history"></span></button>
+  <button id="save" class="disabled"><span class="icon-save"></span></button>
+  <button id="ok" class="disabled"><span class="icon-ok"></span></button>
+</footer>
+</body>
+</html>
