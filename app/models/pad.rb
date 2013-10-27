@@ -23,4 +23,33 @@ class Pad < ActiveRecord::Base
     .order(:revision)
     .reverse_order
   end
+
+  # save pad by key, content and is_autosaved
+  def self.save(key, content, is_autosaved = false)
+    # calculate revision to save
+    revision = Time.now.strftime('%Y-%m%d-%H%M')
+
+    # already exists?
+    pad = self.find_one(key, revision).presence || self.new
+
+    # automatically saved pad cannot overwrite manually did one
+    return true if is_autosaved && !pad.is_autosaved
+
+    # fill fields
+    pad.key = key
+    pad.revision = revision
+    pad.content = content
+    pad.is_autosaved = is_autosaved
+    pad.is_deleted = false
+
+    # save
+    pad.save
+  end
+
+  # force to save
+  def self.save!(key, content, is_autosaved = false)
+    result = self.save(key, content, is_autosaved)
+    raise unless result
+    result
+  end
 end
