@@ -33,7 +33,7 @@ class Pad < ActiveRecord::Base
     pad = self.find_one(key, revision).presence || self.new
 
     # automatically saved pad cannot overwrite manually did one
-    return true if is_autosaved && !pad.is_autosaved
+    return true if is_autosaved && pad.is_autosaved == false
 
     # fill fields
     pad.key = key

@@ -12,7 +12,7 @@
   <%= javascript_include_tag '/js/jquery-2.0.3.min.js' %>
   <%= javascript_include_tag 'script' %>
   <%= javascript_tag do %>
-    json = <%= raw @pad.to_json %>
+    PAD_JSON = <%= raw @pad.to_json %>
   <% end %>
   <title>OnePad</title>
 </head>
@@ -20,20 +20,22 @@
 <header>
   <h1><%= link_to 'OnePad', root_path %><sup>2</sup></h1>
 </header>
-<article>
-  <p>
-    <%= @pad.content %>
-  </p>
-</article>
-<form>
-  <textarea><%= @pad.content %></textarea>
-</form>
+<div id="body">
+  <article>
+    <p>
+      <%= @pad.content %>
+    </p>
+  </article>
+  <form>
+    <textarea id="content-textarea"><%= @pad.content %></textarea>
+  </form>
+</div>
 <footer>
   <div id="count">9999</div>
-  <button id="edit" class="active"><span class="icon-edit"></span></button>
-  <button id="history" class="disabled"><span class="icon-history"></span></button>
-  <button id="save" class="disabled"><span class="icon-save"></span></button>
-  <button id="ok" class="disabled"><span class="icon-ok"></span></button>
+  <button id="edit"><span class="icon-edit"></span></button>
+  <button id="history"><span class="icon-history"></span></button>
+  <button id="save"><span class="icon-save"></span></button>
+  <button id="ok"><span class="icon-ok"></span></button>
 </footer>
 </body>
 </html>
