@@ -1,10 +1,11 @@
 require 'spec_helper'
 
-describe "Pads" do
-  describe "GET /pads" do
-    it "works! (now write some real specs)" do
-      # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
-      get pads_path
+describe 'OnePad APIs' do
+  fixtures :pads
+
+  describe 'GET /:key' do
+    it 'should read specific pad' do
+      get pad_path(key: 'pad1', format: 'json')
       response.status.should be(200)
     end
   end

@@ -35,6 +35,19 @@ describe Pad do
     end
   end
 
+  describe '#create' do
+    it 'should create new record' do
+      result = Pad.create('こんにちは')
+      expect(result).to eq(true)
+
+      latest = Pad.order(:id).reverse_order.first
+      expect(latest.key.length).to eq(10)
+      expect(latest.revision).to match(/^[0-9]{4}-[0-9]{4}-[0-9]{4}$/)
+      expect(latest.content).to eq('こんにちは')
+      expect(latest.is_autosaved).to eq(false)
+    end
+  end
+
   describe '#save' do
     it 'should create new record' do
       result = Pad.save('pad2', '初夢の内容', false)
@@ -45,12 +58,11 @@ describe Pad do
     end
 
     it 'should update record when same revision already exists' do
-      # TODO
+      pending 'TODO'
     end
   end
 
-  # TODO auto-generated
   describe '#save!' do
-    # TODO
+    pending 'TODO'
   end
 end

@@ -24,6 +24,13 @@ class Pad < ActiveRecord::Base
     .reverse_order
   end
 
+  # create pad by content
+  def self.create(content)
+    # generate key and save
+    key = String.password(10)
+    self.save(key, content, false)
+  end
+
   # save pad by key, content and is_autosaved
   def self.save(key, content, is_autosaved = false)
     # calculate revision to save

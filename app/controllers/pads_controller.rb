@@ -28,7 +28,6 @@ class PadsController < ApplicationController
   # PATCH/PUT /pads/1.json
   def update
     respond_to do |format|
-      byebug
       if Pad.save(params[:key], params[:content], params[:is_autosaved] == 'true')
         format.html { redirect_to @pad, notice: 'Pad was successfully updated.' }
         format.json { head :no_content }
