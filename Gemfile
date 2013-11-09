@@ -3,25 +3,15 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
 
-# Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.0'
-
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
-
-# Use CoffeeScript for .js.coffee assets and views
+# Assets Libraries
 gem 'coffee-rails', '~> 4.0.0'
-
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
+gem 'uglifier', '>= 1.3.0'
+gem 'sass-rails', '~> 4.0.0'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
-group :staging, :production do
-  gem 'pg'
-end
-
+# For Development Environments
 group :development, :test do
   gem 'sqlite3'
   gem 'byebug'
@@ -30,3 +20,10 @@ group :development, :test do
   gem 'rspec-kickstarter'
 end
 
+# For Production Environments
+group :staging, :production do
+  gem 'pg'
+  gem 'unicorn'
+  gem 'execjs'
+  gem 'therubyracer'
+end
