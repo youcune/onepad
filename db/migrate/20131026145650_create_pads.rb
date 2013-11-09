@@ -1,9 +1,9 @@
 class CreatePads < ActiveRecord::Migration
   def change
     create_table :pads do |t|
-      t.string :key, null: false
+      t.string :key, null: false, limit: 10
       t.string :revision, null: false
-      t.text :content
+      t.text :content, limit: 1024
       t.boolean :is_autosaved, null: false
       t.boolean :is_deleted, null: false
 
