@@ -2,9 +2,9 @@ class PadsController < ApplicationController
   DEFAULT_CONTENT = <<-'END_OF_CONTENT'
 # OnePadへようこそ！
 ## OnePadとは？
-OnePad2は、会員登録不要で1ページだけ作れる1024字までのクラウドメモサービスです。同じURLを携帯でもブックマークすることで、同じメモが見れます。これまでメールで送っていた手間が省けます。もちろん無料です！
+OnePadは、会員登録不要で1ページだけ作れる1024字までのクラウドメモサービスです。同じURLを携帯でもブックマークすることで、同じメモが見れます。これまでメールで送っていた手間が省けます。もちろん無料です！
 
-[Markdown](http://ja.wikipedia.org/wiki/Markdown)が使えるようになりました！　文書の先頭が # から始まる場合はMarkdownモードになります！
+OnePad2になり、[Markdown](http://ja.wikipedia.org/wiki/Markdown)が使えるようになりました！　文書の先頭が # から始まる場合はMarkdownモードになります！
 
 ## 利用規定
 * OnePad運営者（以下、甲）はサービス利用者（以下、乙）に対して何があってもいかなる保証もしません。

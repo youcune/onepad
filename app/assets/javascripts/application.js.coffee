@@ -77,8 +77,9 @@ insert = ->
       window.history.pushState("", "" , '/' + json.key);
     else
       location.href = '/' + json.key
-    notify('success', '作成しました！　このURLをいろんな端末にブックマークしよう！', 5)
+    notify('success', '作成しました！　このURLをいろんな端末にブックマークしよう！', 5);
     STATUS = LOADED;
+    KEY = json.key
   .fail (e) ->
       STATUS = NEW;
       notify('danger', '作成できませんでした！', 0);
