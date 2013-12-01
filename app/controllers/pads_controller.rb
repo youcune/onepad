@@ -6,10 +6,12 @@ OnePadは、会員登録不要で1ページだけ作れる1024字までのクラ
 
 OnePad2になり、[Markdown](http://ja.wikipedia.org/wiki/Markdown)が使えるようになりました！　文書の先頭が # から始まる場合はMarkdownモードになります！
 
+各種お問い合せは [webmaster@anone.me](mailto:webmaster@anone.me) まで！
+
 ## 利用規定
 * OnePad運営者（以下、甲）はサービス利用者（以下、乙）に対して何があってもいかなる保証もしません。
+* 90日更新のないメモは削除されることがあります。
 * この利用規定は予告なく加筆変更することがあります。
-* 各種お問い合せは [webmaster@anone.me](mailto:webmaster@anone.me) までお願いします。
   END_OF_CONTENT
 
   # GET /
