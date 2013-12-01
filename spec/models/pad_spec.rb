@@ -3,62 +3,125 @@ require 'spec_helper'
 describe Pad do
   fixtures :pads
 
+  describe '#html' do
+    it 'はcontentが#から始まる場合はMarkdownとして解釈して返す' do
+      pad = Pad.new(content: '# h1')
+      expected = '<h1>h1</h1>'
+      actual = pad.html.chomp
+      expect(actual).to eq expected
+    end
+
+    it 'はcontentは#から始まらない場合はHTMLとして返す' do
+      pad = Pad.new(content: 'p')
+      expected = '<p>p</p>'
+      actual = pad.html.chomp
+      expect(actual).to eq expected
+    end
+  end
+
+  describe '#save' do
+    it 'はキーが渡されない場合、新しいPadを作成する' do
+      pad = Pad.new(content: 'Hello, World!')
+      pad.save!
+      loaded = Pad.find_latest(pad.key)
+      expect(loaded.content).to eq pad.content
+    end
+
+    it 'はキーが渡された場合、新しいレコードを作成する' do
+      pad = Pad.new(key: 'pad1', content: 'Hello, World!')
+      pad.save!
+      loaded = Pad.find_latest('pad1')
+      expect(loaded.id).to be > 5
+      expect(loaded.content).to eq pad.content
+    end
+
+    it 'はキーが渡されリビジョンが存在する場合、既存のレコードを上書きする' do
+      pending '時刻に依存するテストは未実装'
+    end
+
+    it 'はcontent内の危険そうな文字を安全に変換する' do
+      pad = Pad.new(content: '<script>alert("DANGER!");</script>')
+      pad.save!
+      loaded = Pad.find_latest(pad.key)
+      expected = '&lt;script&gt;alert(&quot;DANGER!&quot;);&lt;/script&gt;'
+      expect(loaded.content).to eq expected
+    end
+  end
+
   describe '#find_latest' do
-    it 'should return latest pad' do
+    it 'は最新のPadを返す' do
       pad = Pad.find_latest('pad1')
       expect(pad.id).to eq 4
     end
 
-    it 'should return latest pad except for autosaved one' do
+    it 'は最新のPadを返すが、自動保存されたものは除外する' do
       pad = Pad.find_latest('pad2')
       expect(pad.id).to eq 2
+    end
+
+    it 'は指定したkeyでPadが見つからない場合、nilを返す' do
+      pad = Pad.find_latest('missing_key')
+      expect(pad).to be_nil
     end
   end
 
   describe '#find_one' do
-    it 'should return specified pad' do
+    it 'はkeyとrevisionを指定して1件のPadを返す' do
       pad = Pad.find_one('pad1', '2013-0101-0000')
       expect(pad.id).to eq 1
+    end
+
+    it 'は指定したkeyとrevisionでPadが見つからない場合、nilを返す' do
+      pad = Pad.find_one('pad1', '9999-9999-9999')
+      expect(pad).to be_nil
     end
   end
 
   describe '#find_all' do
-    it 'should return all pads' do
-      pads = Pad.find_all 'pad1'
-      expect(pads.count).to eq 3
-    end
-
-    it 'should order latest first' do
+    it 'は新しいものから順にすべてのPadを返す' do
       pads = Pad.find_all('pad1')
+      expect(pads.count).to eq 3
       expect(pads.first.revision).to eq '2013-0101-0501'
       expect(pads.last .revision).to eq '2013-0101-0000'
     end
   end
 
-  describe '#save' do
-    it 'should create new pad' do
-      saved = Pad.new(content: 'Hello, World!')
-      saved.save!
-
-      loaded = Pad.find_latest(saved.key)
-      expect(loaded.content).to eq saved.content
-    end
-
-    it 'should create new record' do
-      saved = Pad.new(key: 'pad1', content: 'Hello, World!')
-      saved.save!
-
-      loaded = Pad.find_latest('pad1')
-      expect(loaded.id).to be > 5
-      expect(loaded.content).to eq saved.content
+  describe '#generate_key' do
+    it 'は ????-???? の形式で文字列を返す' do
+      result = Pad.generate_key
+      expect(result).to match /\A[a-z]{4}-[a-z]{4}\Z/
     end
   end
 
-  describe '#generate_key' do
-    it 'should generate key' do
-      result = Pad.__send__(:generate_key)
-      expect(result).to match /\A[a-z]{4}-[a-z]{4}\Z/
-      p result
+  describe '#parse_as_html' do
+    it 'は改行を<br>にして全体を<p>で囲んで返す' do
+      source = 'Hello
+World'
+      expected = '<p>Hello<br>World</p>'
+      actual = Pad.parse_as_html(source)
+      expect(actual).to eq expected
+    end
+
+    it 'はURLをリンクに変換して返す' do
+      source = 'http://example.com/something-to-link
+https://example.com/something-to-link'
+      expected = '<p><a href="http://example.com/something-to-link">http://example.com/something-to-link</a><br><a href="https://example.com/something-to-link">https://example.com/something-to-link</a></p>'
+      actual = Pad.parse_as_html(source)
+      expect(actual).to eq expected
+    end
+
+    it 'は電話番号らしきものをリンクに変換して返す' do
+      source = '080-0000-0000'
+      expected = '<p><a href="tel:080-0000-0000">080-0000-0000</a></p>'
+      actual = Pad.parse_as_html(source)
+      expect(actual).to eq expected
+    end
+
+    it 'は電子メールアドレスらしきものをリンクに変換して返す' do
+      source = 'i+some-alias@youcune.com'
+      expected = '<p><a href="mailto:i+some-alias@youcune.com">i+some-alias@youcune.com</a></p>'
+      actual = Pad.parse_as_html(source)
+      expect(actual).to eq expected
     end
   end
 end

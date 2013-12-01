@@ -104,25 +104,6 @@ function textarea_keydown(e){
 	}
 }
 
-// キーボードが離されたとき
-function textarea_keyup(e){
-	is_cmd_down = false;	// どのキーが離されてもcommandキーを解放する
-	is_saved    = false;	// 変更された
-	calc_count();
-}
-
-// SAVEボタンが押されたとき
-function save_click(e){
-	save("M");
-	return false;
-}
-
-// LOADボタンが押されたとき
-function load_click(e){
-	location.href = ROOT_DIR + "/" + $('#pid').val() + "/history";
-	return false;
-}
-
 // AjaxでOnePadの内容をPOSTする
 function save(action){
 	if($('#textarea').val().length <= 1024 || confirm('長すぎるので保存すると最後の方が切れます')){
@@ -174,7 +155,7 @@ function build_textdiv(){
 			.replace(/>/g, '&gt;')
 			.replace(/"/g, '&quot;') // "
 			.replace(/ /g, '&nbsp;')
-			.replace(/^(https?:\/\/[\w\/\.\+\-\=\%\?\&\;]+)/gm, '<a href="$1">$1</a>')
+			.replace(//gm, '<a href="$1">$1</a>')
 			.replace(/^([\w\/\.\+\-\=\%\?\&\;]+\@[\w\/\.\+\-\=\%\?\&\;]+\.[\w\/\.\+\-\=\%\?\&\;]+)/gm, '<a href="mailto:$1">$1</a>')
 			.replace(/^(0[\d-]{9,15})/gm, '<a href="tel:$1">$1</a>')
 			.replace(/^((北海道|青森県|岩手県|宮城県|秋田県|山形県|福島県|茨城県|栃木県|群馬県|埼玉県|千葉県|東京都|神奈川県|新潟県|富山県|石川県|福井県|山梨県|長野県|岐阜県|静岡県|愛知県|三重県|滋賀県|京都府|大阪府|兵庫県|奈良県|和歌山県|鳥取県|島根県|岡山県|広島県|山口県|徳島県|香川県|愛媛県|高知県|福岡県|佐賀県|長崎県|熊本県|大分県|宮崎県|鹿児島県|沖縄県)[^<]{5,})/gm, '<a href="http://maps.google.com/maps?hl=ja&q='+encodeURI("$1")+'">$1</a>')
@@ -182,18 +163,6 @@ function build_textdiv(){
 			+ '<br><br>';
 	}
 	$('#textdiv').html(text);
-}
-
-// 残りの文字数を数える
-function calc_count(){
-	var rest = 1024 - $('#textarea').val().length;
-	$('#count').text(rest);
-	if(rest < 100){
-		$('#count').addClass('warning');
-	}
-	else{
-		$('#count').removeClass('warning');
-	}
 }
 
 // Ajaxの通信状態によってボタンの見た目を変える

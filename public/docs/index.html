@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+  <title>OnePad API Document</title>
+</head>
+<body>
+<div class="container">
+  <h1>OnePad API Document</h1>
+  <h2>Create API <small>新規作成API</small></h2>
+  <h3>Request</h3>
+  <pre>POST http://onepad.anone.me/create.json</pre>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>name</th>
+        <th>value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>content</td>
+        <td>本文</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3>Response</h3>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>status</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>201 Created</td>
+      <td>成功</td>
+    </tr>
+    <tr>
+      <td>400 Bad Request</td>
+      <td>失敗。contentがない。</td>
+    </tr>
+    <tr>
+      <td>409 Conflict</td>
+      <td>失敗。ランダムに生成したkeyが空いていなかった。</td>
+    </tr>
+    <tr>
+      <td>413 Request Entity Too Large</td>
+      <td>失敗。contentが長すぎる。</td>
+    </tr>
+    <tr>
+      <td>500 Internal Server Error</td>
+      <td>失敗</td>
+    </tr>
+    <tr>
+      <td>503 Service Unavailable</td>
+      <td>失敗。短時間の間に新規作成されすぎている。</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <h2>Read API <small>読み出しAPI</small></h2>
+  <pre>GET http://onepad.anone.me/:key.json
+GET http://onepad.anone.me/:key/:revision.json</pre>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>name</th>
+      <th>value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>key</td>
+      <td>key</td>
+    </tr>
+    <tr>
+      <td>key</td>
+      <td>key</td>
+    </tr>
+    </tbody>
+  </table>
+  <h3>Response</h3>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>status</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>201 Created</td>
+      <td>成功</td>
+    </tr>
+    <tr>
+      <td>400 Bad Request</td>
+      <td>失敗。contentがない。</td>
+    </tr>
+    <tr>
+      <td>413 Request Entity Too Large</td>
+      <td>失敗。contentが長すぎる。</td>
+    </tr>
+    <tr>
+      <td>500 Internal Server Error</td>
+      <td>失敗</td>
+    </tr>
+    </tbody>
+</div>
+</body>
+</html>

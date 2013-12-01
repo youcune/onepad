@@ -11,6 +11,9 @@ gem 'sass-rails', '~> 4.0.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
+# Markdown Parser
+gem 'rdiscount'
+
 # For Development Environments
 group :development, :test do
   gem 'sqlite3'

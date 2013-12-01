@@ -156,5 +156,4 @@ describe PadsController do
       response.should redirect_to(pads_url)
     end
   end
-
 end

@@ -11,31 +11,25 @@
   <link href="/images/apple-touch-icon.png" rel="apple-touch-icon">
   <%= javascript_include_tag '/js/jquery-2.0.3.min.js' %>
   <%= javascript_include_tag 'script' %>
-  <%= javascript_tag do %>
-    PAD_JSON = <%= raw @pad.to_json %>
-  <% end %>
   <title>OnePad</title>
 </head>
 <body>
 <header>
   <h1><%= link_to 'OnePad', root_path %><sup>2</sup></h1>
 </header>
+<div id="notification"></div>
 <div id="body">
-  <article>
-    <p>
-      <%= @pad.content %>
-    </p>
-  </article>
-  <form>
-    <textarea id="content-textarea"><%= @pad.content %></textarea>
+  <article id="content-article" class="group-view"><%= @pad.key == 'create' ? @pad.html.html_safe : '' %></article>
+  <form id="content-form" class="group-edit">
+    <textarea id="content-textarea"><%= @pad.key == 'create' ? @pad.content.html_safe : '' %></textarea><input type="hidden" name="key" id="key" value="<%= @pad.key %>">
   </form>
 </div>
 <footer>
-  <div id="count">9999</div>
-  <button id="edit"><span class="icon-edit"></span></button>
-  <button id="history"><span class="icon-history"></span></button>
-  <button id="save"><span class="icon-save"></span></button>
-  <button id="ok"><span class="icon-ok"></span></button>
+  <div id="count"></div>
+  <button id="edit" class="group-view"><span class="icon-edit"></span></button>
+  <button id="history" style="display: none;"><span class="icon-history"></span></button>
+  <button id="save" class="group-edit"><span class="icon-save"></span></button>
+  <button id="ok" class="group-edit"><span class="icon-ok"></span></button>
 </footer>
 </body>
 </html>
