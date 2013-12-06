@@ -16,11 +16,19 @@ gem 'rdiscount'
 
 # For Development Environments
 group :development, :test do
+  # Database
   gem 'sqlite3'
+
+  # For Debugging
   gem 'byebug'
   gem 'better_errors'
+
+  # For Testing
   gem 'rspec-rails'
   gem 'rspec-kickstarter'
+
+  # misc
+  gem 'spring'
 end
 
 # For Production Environments

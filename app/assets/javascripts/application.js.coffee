@@ -7,8 +7,9 @@ SAVING = 5; # 保存中の状態（完了後はLOADEDに遷移）
 EDITED_ON_SAVING = 6; # 保存中に編集された状態（保存完了したらEDITEDに遷移）
 MAX_LENGTH = 1024;
 INTERVAL_SECONDS = 61; # 編集後、この時間が経過したら自動保存
+CLIENT_HEIGHT = 600;
 STATUS = VIEWING; IS_CMD_DOWN = false; KEY = null;
-$ARTICLE = null; $FORM = null; $TEXTAREA = null;
+$ARTICLE = null; $TEXTAREA = null;
 $NOTIFICATION = null; $COUNT = null;
 $GROUP_VIEW = null; $GROUP_EDIT = null;
 
@@ -23,20 +24,22 @@ switch_to_view_mode = ->
 
 # 編集モードに切り替え
 switch_to_edit_mode = ->
-  # タッチパネル端末の場合、ソフトウェアキーボードを考慮した高さにする
-  h = $('html').prop('clientHeight') - 106;
-  if "ontouchend" in window
-    $TEXTAREA.height(h *= 0.45);
-    $(window).scrollTop(32);
-  else
-    $TEXTAREA.height(h);
-
   $GROUP_VIEW.hide();
   $GROUP_EDIT.show();
   if STATUS == NEW
-    notify('info', '<span class="icon-save"></span>は保存、<span class="icon-ok"></span>は保存して終了するボタンです！', 8);
+    notify('info', '保存するには<span class="icon-save"></span>、保存して終了するには<span class="icon-ok"></span>を押してくださいね！', 8);
   else
     STATUS = LOADED;
+
+# テキストエリアで編集中
+textarea_focus = ->
+  if "ontouchend" in window
+    $TEXTAREA.css('height', (CLIENT_HEIGHT - 81) * 0.45);
+    $(window).scrollTop(32);
+
+# テキストエリアで編集終了
+textarea_blur = ->
+  $TEXTAREA.css('height', CLIENT_HEIGHT - 81);
 
 # 残り文字数を計算
 calc_count = ->
@@ -141,9 +144,9 @@ hide_notification = ->
 # initialize
 $ ->
   KEY = $('input#key').val();
-  $ARTICLE = $('article#content-article');
-  $FORM = $('form#content-form');
-  $TEXTAREA = $('textarea#content-textarea');
+  CLIENT_HEIGHT = $('html').prop('clientHeight');
+  $ARTICLE = $('article#content-article').css('height', CLIENT_HEIGHT - 81);
+  $TEXTAREA = $('textarea#content-textarea').css('height', CLIENT_HEIGHT - 81);
   $NOTIFICATION = $('div#notification');
   $COUNT = $('input#count');
   $GROUP_VIEW = $('.group-view');
@@ -154,6 +157,8 @@ $ ->
     select();
   calc_count();
   switch_to_view_mode();
+  $TEXTAREA.focus -> textarea_focus();
+  $TEXTAREA.blur -> textarea_blur();
   $('button#edit').click -> switch_to_edit_mode();
   $('button#save').click -> save(false, false);
   $('button#ok').click -> save(false, true);

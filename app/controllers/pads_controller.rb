@@ -27,8 +27,10 @@ OnePad2になり、[Markdown](http://ja.wikipedia.org/wiki/Markdown)が使える
 
     if @pad.save
       render action: 'show', status: :created
+    elsif @pad.errors.present?
+      render json: { errors: @pad.errors.full_messages }, status: :bad_request
     else
-      render json: @pad.errors, status: :internal_server_error
+      render status: :internal_server_error
     end
   end
 
@@ -38,6 +40,7 @@ OnePad2になり、[Markdown](http://ja.wikipedia.org/wiki/Markdown)が使える
   # GET /:key/:revision.json
   def show
     @pad = params[:revision].nil? ? Pad.find_latest(params[:key]) : Pad.find_one(params[:key], params[:revision])
+    render json: { errors: ['指定のメモが見つかりませんでした'] }, status: :not_found and return if @pad.nil?
   end
 
   # PATCH/PUT /:key
@@ -47,8 +50,10 @@ OnePad2になり、[Markdown](http://ja.wikipedia.org/wiki/Markdown)が使える
 
     if @pad.save
       render action: 'show', status: :ok
+    elsif @pad.errors.present?
+      render json: { errors: @pad.errors.full_messages }, status: :bad_request
     else
-      render json: @pad.errors, status: :internal_server_error
+      render status: :internal_server_error
     end
   end
 

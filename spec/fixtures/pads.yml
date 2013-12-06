@@ -1,6 +1,6 @@
 1:
   id: 1
-  key: pad1
+  key: test-pad1
   revision: 2013-0101-0000
   content: あけました
   is_autosaved: false
@@ -8,7 +8,7 @@
 
 2:
   id: 2
-  key: pad2
+  key: test-pad2
   revision: 2013-0101-0000
   content: あけました
   is_autosaved: false
@@ -16,7 +16,7 @@
 
 3:
   id: 3
-  key: pad1
+  key: test-pad1
   revision: 2013-0101-0500
   content: 初日の出
   is_autosaved: true
@@ -24,7 +24,7 @@
 
 4:
   id: 4
-  key: pad1
+  key: test-pad1
   revision: 2013-0101-0501
   content: 初日の出スポット
   is_autosaved: false
@@ -32,7 +32,7 @@
 
 5:
   id: 5
-  key: pad2
+  key: test-pad2
   revision: 2013-0101-0700
   content: 初夢
   is_autosaved: true

@@ -1,166 +1,81 @@
 require 'spec_helper'
 
 describe PadsController do
-
-  # This should return the minimal set of attributes required to create a valid
-  # Pad. As you add validations to Pad, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) { { "key" => "MyString" } }
-
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # PadsController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
+  fixtures :pads
 
   describe 'GET new' do
-    it 'はkeyがcreateの仮の@padを生成する' do
+    it 'はkeyがcreateの仮の@padを生成する (200)' do
       get :new
       actual = assigns(:pad)
       expect(actual.key).to eq 'create'
       expect(actual.content).to eq PadsController::DEFAULT_CONTENT
+      expect(response.status).to eq 200
       expect(response).to render_template :show
-      expect(response.response_code).to eq 200
     end
   end
 
   describe 'POST create' do
-    it 'は渡されたcontentの内容で@padを生成する' do
+    it 'は渡されたcontentの内容で@padを生成する (201)' do
       post :create, { content: 'Hello!' }
       actual = assigns(:pad)
       expect(actual.content).to eq 'Hello!'
+      expect(response.status).to eq 201
       expect(response).to render_template :show
-      expect(response.response_code).to eq 200
     end
 
-    it 'は不正な値が渡された場合、ステータス500を返す' do
-      pending '実装中'
-    end
-  end
-
-  describe "GET index" do
-    it "assigns all pads as @pads" do
-      pad = Pad.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:pads).should eq([pad])
+    it 'は不正な値が渡された場合、ステータス400を返す (400)' do
+      post :create, { content: nil }
+      expected = { errors: ['本文は1文字以上で入力してください。'] }
+      actual = JSON(response.body).symbolize_keys
+      expect(response.status).to eq 400
+      expect(actual).to eq expected
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested pad as @pad" do
-      pad = Pad.create! valid_attributes
-      get :show, {:id => pad.to_param}, valid_session
-      assigns(:pad).should eq(pad)
+  describe 'GET show' do
+    it 'はkeyのみ渡された場合、該当する@padを返す (200)' do
+      get :show, { key: 'test-pad1' }
+      actual = assigns(:pad)
+      expect(response.status).to eq 200
+      expect(actual.id).to eq 4
+    end
+
+    it 'はkeyとrevisionが渡された場合、該当する@padを返す (200)' do
+      get :show, { key: 'test-pad1', revison: '2013-0101-0000' }
+      actual = assigns(:pad)
+      expect(actual.id).to eq 1
+      expect(response.status).to eq 200
+    end
+
+    it 'はkeyが存在しない場合、ステータス404を返す (404)' do
+      get :show, { key: 'notf-ound' }
+      expected = { errors: ['指定のメモが見つかりませんでした'] }
+      actual = JSON(response.body).symbolize_keys
+      expect(response.status).to eq 404
+      expect(actual).to eq expected
+    end
+
+    it 'はkeyが存在するがrevisionが存在しない場合、ステータス404を返す (404)' do
+      get :show, { key: 'test-pad1', revision: '9999-9999-9999' }
+      expected = { errors: ['指定のメモが見つかりませんでした'] }
+      actual = JSON(response.body).symbolize_keys
+      expect(response.status).to eq 404
+      expect(actual).to eq expected
     end
   end
 
-  describe "GET new" do
-    it "assigns a new pad as @pad" do
-      get :new, {}, valid_session
-      assigns(:pad).should be_a_new(Pad)
-    end
-  end
-
-  describe "GET edit" do
-    it "assigns the requested pad as @pad" do
-      pad = Pad.create! valid_attributes
-      get :edit, {:id => pad.to_param}, valid_session
-      assigns(:pad).should eq(pad)
-    end
-  end
-
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new Pad" do
-        expect {
-          post :create, {:pad => valid_attributes}, valid_session
-        }.to change(Pad, :count).by(1)
-      end
-
-      it "assigns a newly created pad as @pad" do
-        post :create, {:pad => valid_attributes}, valid_session
-        assigns(:pad).should be_a(Pad)
-        assigns(:pad).should be_persisted
-      end
-
-      it "redirects to the created pad" do
-        post :create, {:pad => valid_attributes}, valid_session
-        response.should redirect_to(Pad.last)
-      end
+  describe 'PUT update' do
+    it 'は与えられたパラメータで仮の@padを作成して保存する (200)' do
+      put :update, { key: 'test-pad1', content: 'Hello!', is_autosaved: false }
+      expect(response.status).to eq 200
     end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved pad as @pad" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Pad.any_instance.stub(:save).and_return(false)
-        post :create, {:pad => { "key" => "invalid value" }}, valid_session
-        assigns(:pad).should be_a_new(Pad)
-      end
-
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Pad.any_instance.stub(:save).and_return(false)
-        post :create, {:pad => { "key" => "invalid value" }}, valid_session
-        response.should render_template("new")
-      end
-    end
-  end
-
-  describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested pad" do
-        pad = Pad.create! valid_attributes
-        # Assuming there are no other pads in the database, this
-        # specifies that the Pad created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        Pad.any_instance.should_receive(:update).with({ "key" => "MyString" })
-        put :update, {:id => pad.to_param, :pad => { "key" => "MyString" }}, valid_session
-      end
-
-      it "assigns the requested pad as @pad" do
-        pad = Pad.create! valid_attributes
-        put :update, {:id => pad.to_param, :pad => valid_attributes}, valid_session
-        assigns(:pad).should eq(pad)
-      end
-
-      it "redirects to the pad" do
-        pad = Pad.create! valid_attributes
-        put :update, {:id => pad.to_param, :pad => valid_attributes}, valid_session
-        response.should redirect_to(pad)
-      end
-    end
-
-    describe "with invalid params" do
-      it "assigns the pad as @pad" do
-        pad = Pad.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Pad.any_instance.stub(:save).and_return(false)
-        put :update, {:id => pad.to_param, :pad => { "key" => "invalid value" }}, valid_session
-        assigns(:pad).should eq(pad)
-      end
-
-      it "re-renders the 'edit' template" do
-        pad = Pad.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Pad.any_instance.stub(:save).and_return(false)
-        put :update, {:id => pad.to_param, :pad => { "key" => "invalid value" }}, valid_session
-        response.should render_template("edit")
-      end
-    end
-  end
-
-  describe "DELETE destroy" do
-    it "destroys the requested pad" do
-      pad = Pad.create! valid_attributes
-      expect {
-        delete :destroy, {:id => pad.to_param}, valid_session
-      }.to change(Pad, :count).by(-1)
-    end
-
-    it "redirects to the pads list" do
-      pad = Pad.create! valid_attributes
-      delete :destroy, {:id => pad.to_param}, valid_session
-      response.should redirect_to(pads_url)
+    it 'はパラメータが不足しているとステータス400を返す (400)' do
+      put :update, { key: 'test-pad1', content: nil, is_autosaved: false }
+      expected = { errors: ['本文は1文字以上で入力してください。'] }
+      actual = JSON(response.body).symbolize_keys
+      expect(response.status).to eq 400
+      expect(actual).to eq expected
     end
   end
 end

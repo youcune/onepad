@@ -1,0 +1,11 @@
+ja:
+  activerecord:
+    models:
+      pad: メモ
+    attributes:
+      pad:
+        key: メモID
+        revision: リビジョンID
+        content: 本文
+        is_autosaved: 自動保存
+        is_deleted: 削除済み

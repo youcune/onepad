@@ -14,11 +14,11 @@
 ActiveRecord::Schema.define(version: 20131026145650) do
 
   create_table "pads", force: true do |t|
-    t.string   "key",          null: false
-    t.string   "revision",     null: false
-    t.text     "content"
-    t.boolean  "is_autosaved", null: false
-    t.boolean  "is_deleted",   null: false
+    t.string   "key",          limit: 10,   null: false
+    t.string   "revision",                  null: false
+    t.text     "content",      limit: 1024
+    t.boolean  "is_autosaved",              null: false
+    t.boolean  "is_deleted",                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
