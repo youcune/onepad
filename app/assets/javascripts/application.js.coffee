@@ -25,7 +25,7 @@ switch_to_view_mode = ->
 
 # 編集モードに切り替え
 switch_to_edit_mode = ->
-  if "ontouchend" in window
+  if "ontouchend" of window
     $TEXTAREA.css('height', (CLIENT_HEIGHT - 81) * 0.45);
     $(window).scrollTop(32);
 
