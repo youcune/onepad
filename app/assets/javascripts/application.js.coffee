@@ -15,6 +15,7 @@ $GROUP_VIEW = null; $GROUP_EDIT = null;
 
 # 表示モードに切り替え
 switch_to_view_mode = ->
+  $TEXTAREA.css('height', CLIENT_HEIGHT - 81);
   $GROUP_VIEW.show();
   $GROUP_EDIT.hide();
   if STATUS == NEW
@@ -24,22 +25,16 @@ switch_to_view_mode = ->
 
 # 編集モードに切り替え
 switch_to_edit_mode = ->
+  if "ontouchend" in window
+    $TEXTAREA.css('height', (CLIENT_HEIGHT - 81) * 0.45);
+    $(window).scrollTop(32);
+
   $GROUP_VIEW.hide();
   $GROUP_EDIT.show();
   if STATUS == NEW
     notify('info', '保存するには<span class="icon-save"></span>、保存して終了するには<span class="icon-ok"></span>を押してくださいね！', 8);
   else
     STATUS = LOADED;
-
-# テキストエリアで編集中
-textarea_focus = ->
-  if "ontouchend" in window
-    $TEXTAREA.css('height', (CLIENT_HEIGHT - 81) * 0.45);
-    $(window).scrollTop(32);
-
-# テキストエリアで編集終了
-textarea_blur = ->
-  $TEXTAREA.css('height', CLIENT_HEIGHT - 81);
 
 # 残り文字数を計算
 calc_count = ->
@@ -146,7 +141,7 @@ $ ->
   KEY = $('input#key').val();
   CLIENT_HEIGHT = $('html').prop('clientHeight');
   $ARTICLE = $('article#content-article').css('height', CLIENT_HEIGHT - 81);
-  $TEXTAREA = $('textarea#content-textarea').css('height', CLIENT_HEIGHT - 81);
+  $TEXTAREA = $('textarea#content-textarea');
   $NOTIFICATION = $('div#notification');
   $COUNT = $('input#count');
   $GROUP_VIEW = $('.group-view');
@@ -157,8 +152,6 @@ $ ->
     select();
   calc_count();
   switch_to_view_mode();
-  $TEXTAREA.focus -> textarea_focus();
-  $TEXTAREA.blur -> textarea_blur();
   $('button#edit').click -> switch_to_edit_mode();
   $('button#save').click -> save(false, false);
   $('button#ok').click -> save(false, true);
