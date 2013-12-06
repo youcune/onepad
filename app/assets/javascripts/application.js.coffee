@@ -15,26 +15,24 @@ $GROUP_VIEW = null; $GROUP_EDIT = null;
 
 # 表示モードに切り替え
 switch_to_view_mode = ->
-  $TEXTAREA.css('height', CLIENT_HEIGHT - 81);
   $GROUP_VIEW.show();
   $GROUP_EDIT.hide();
   if STATUS == NEW
     notify('info', '下にある<span class="icon-edit"></span>ボタンを押すとすぐにメモの編集を始められます！', 5);
   else
     STATUS = VIEWING;
+  $TEXTAREA.css('height', CLIENT_HEIGHT - 81);
 
 # 編集モードに切り替え
 switch_to_edit_mode = ->
-  if "ontouchend" of window
-    $TEXTAREA.css('height', (CLIENT_HEIGHT - 81) * 0.45);
-    $(window).scrollTop(32);
-
   $GROUP_VIEW.hide();
   $GROUP_EDIT.show();
   if STATUS == NEW
     notify('info', '保存するには<span class="icon-save"></span>、保存して終了するには<span class="icon-ok"></span>を押してくださいね！', 8);
   else
     STATUS = LOADED;
+  if "ontouchend" of window
+    $TEXTAREA.css('height', (CLIENT_HEIGHT - 81) * 0.5).focus();
 
 # 残り文字数を計算
 calc_count = ->
