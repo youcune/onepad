@@ -8,7 +8,7 @@ EDITED_ON_SAVING = 6; # 保存中に編集された状態（保存完了した�
 MAX_LENGTH = 1024;
 INTERVAL_SECONDS = 61; # 編集後、この時間が経過したら自動保存
 CLIENT_HEIGHT = 600;
-STATUS = VIEWING; IS_CMD_DOWN = false; KEY = null;
+STATUS = VIEWING; IS_CMD_DOWN = false; KEY = null; TIMER_ID = null;
 $ARTICLE = null; $TEXTAREA = null;
 $NOTIFICATION = null; $COUNT = null;
 $GROUP_VIEW = null; $GROUP_EDIT = null;
@@ -129,7 +129,10 @@ notify = (type, message, timer) ->
     .html(message)
     .fadeIn('fast');
   if timer > 0
-    setTimeout (-> hide_notification()), timer * 1000;
+    if TIMER_ID
+      clearTimeout(TIMER_ID);
+      TIMER_ID = null;
+    TIMER_ID = setTimeout (-> hide_notification()), timer * 1000;
 
 hide_notification = ->
   $('#notification').fadeOut('fast');

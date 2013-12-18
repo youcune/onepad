@@ -30,25 +30,33 @@ describe PadsController do
       expect(response.status).to eq 400
       expect(actual).to eq expected
     end
+
+    it 'はRetryableErrorを受け取ったら指示されたエラーコードを返す (503)' do
+      Pad::LIMIT_PER_MINUTE.times do
+        Pad.new(content: 'Hello, World!').save
+      end
+      post :create, { content: 'Hello!' }
+      expect(response.status).to eq 503
+    end
   end
 
   describe 'GET show' do
     it 'はkeyのみ渡された場合、該当する@padを返す (200)' do
-      get :show, { key: 'test-pad1' }
+      get :show, { key: 'test-pad1', format: :json }
       actual = assigns(:pad)
       expect(response.status).to eq 200
       expect(actual.id).to eq 4
     end
 
     it 'はkeyとrevisionが渡された場合、該当する@padを返す (200)' do
-      get :show, { key: 'test-pad1', revison: '2013-0101-0000' }
+      get :show, { key: 'test-pad1', revision: '2013-0101-0000', format: :json }
       actual = assigns(:pad)
       expect(actual.id).to eq 1
       expect(response.status).to eq 200
     end
 
     it 'はkeyが存在しない場合、ステータス404を返す (404)' do
-      get :show, { key: 'notf-ound' }
+      get :show, { key: 'notf-ound', format: :json }
       expected = { errors: ['指定のメモが見つかりませんでした'] }
       actual = JSON(response.body).symbolize_keys
       expect(response.status).to eq 404
@@ -56,7 +64,7 @@ describe PadsController do
     end
 
     it 'はkeyが存在するがrevisionが存在しない場合、ステータス404を返す (404)' do
-      get :show, { key: 'test-pad1', revision: '9999-9999-9999' }
+      get :show, { key: 'test-pad1', revision: '9999-9999-9999', format: :json }
       expected = { errors: ['指定のメモが見つかりませんでした'] }
       actual = JSON(response.body).symbolize_keys
       expect(response.status).to eq 404

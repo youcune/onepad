@@ -7,8 +7,6 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <%= stylesheet_link_tag 'application' %>
   <%= stylesheet_link_tag 'pictonic' %>
-  <link href="/images/favicon.png" rel="shortcut icon">
-  <link href="/images/apple-touch-icon.png" rel="apple-touch-icon">
   <%= javascript_include_tag '/js/jquery-2.0.3.min.js' %>
   <%= javascript_include_tag 'application' %>
   <title>OnePad</title>
@@ -19,10 +17,7 @@
 </header>
 <div id="notification"></div>
 <div id="body">
-  <form>
-    <article id="content-article" class="group-view"><%= @pad.key == 'create' ? @pad.html.html_safe : '' %></article>
-    <textarea id="content-textarea" class="group-edit"><%= @pad.key == 'create' ? @pad.content.html_safe : '' %></textarea><input type="hidden" name="key" id="key" value="<%= @pad.key %>">
-  </form>
+  <%= yield %>
 </div>
 <footer>
   <div id="count"></div>

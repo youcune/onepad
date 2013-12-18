@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.0'
+gem 'rails', '4.0.2'
 
 # Assets Libraries
 gem 'coffee-rails', '~> 4.0.0'
@@ -24,8 +24,11 @@ group :development, :test do
   gem 'better_errors'
 
   # For Testing
-  gem 'rspec-rails'
+  gem 'rspec', '~> 2.99.0.beta1'
+  gem 'rspec-rails', '~> 2.99.0.beta1'
   gem 'rspec-kickstarter'
+  gem 'capybara'
+  gem 'turnip'
 
   # misc
   gem 'spring'
@@ -38,3 +41,4 @@ group :staging, :production do
   gem 'execjs'
   gem 'therubyracer'
 end
+
