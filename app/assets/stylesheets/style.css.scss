@@ -131,11 +131,14 @@ body{
     }
     button{
       background: #ffffff;
-      color: #99cc33;
+      color: #77aa11;
       cursor: pointer;
       font-size: 16px;
       height: 24px;
       margin: 8px 0 8px 8px;
+    }
+    button:hover{
+      color: #669900;
     }
   }
 }
