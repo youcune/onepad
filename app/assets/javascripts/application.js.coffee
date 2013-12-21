@@ -38,10 +38,14 @@ switch_to_edit_mode = ->
 calc_count = ->
   rest = MAX_LENGTH - $TEXTAREA.val().length;
   $COUNT.text(rest);
-  if(rest < 100)
-    $COUNT.addClass('warning');
+  if(rest  < 0)
+    $COUNT.css('color', '#ff0000');
+  else if(rest <= 40)
+    $COUNT.css('color', '#ff6666');
+  else if(rest <= 200)
+    $COUNT.css('color', '#ff9999');
   else
-    $COUNT.removeClass('warning');
+    $COUNT.css('color', '');
 
 # APIの応答を画面にマップする
 append_content = (json, updates_textarea) ->
@@ -54,6 +58,7 @@ select = ->
   $.get('/' + KEY + '.json')
     .done (json) ->
       append_content(json, true);
+      calc_count();
       notify('success', 'よみこみました！', 2);
 
 # 作成
@@ -144,7 +149,7 @@ $ ->
   $ARTICLE = $('article#content-article').css('height', CLIENT_HEIGHT - 81);
   $TEXTAREA = $('textarea#content-textarea');
   $NOTIFICATION = $('div#notification');
-  $COUNT = $('input#count');
+  $COUNT = $('div#count');
   $GROUP_VIEW = $('.group-view');
   $GROUP_EDIT = $('.group-edit');
   if KEY == 'create'
