@@ -4,7 +4,7 @@ class PadsController < ApplicationController
 ## OnePadとは？
 OnePadは、会員登録不要で1ページだけ作れる1024字までのクラウドメモサービスです。同じURLを携帯でもブックマークすることで、同じメモが見れます。これまでメールで送っていた手間が省けます。もちろん無料です！
 
-OnePad2になり、[Markdown](http://ja.wikipedia.org/wiki/Markdown)が使えるようになりました！　文書の先頭が # から始まる場合はMarkdownモードになります！
+OnePad2になり、 [Markdown](http://ja.wikipedia.org/wiki/Markdown) が使えるようになりました！　文書の先頭が # から始まる場合はMarkdownモードになります！
 
 各種お問い合せは [webmaster@anone.me](mailto:webmaster@anone.me) まで！
 
