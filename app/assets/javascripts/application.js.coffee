@@ -70,7 +70,7 @@ insert = ->
     append_content(json, false);
 
     if window.history && window.history.pushState
-      window.history.pushState("", "" , '/' + json.key);
+      window.history.pushState("", "", '/' + json.key);
     else
       location.href = '/' + json.key
     notify('success', '作成しました！　このURLをいろんな端末にブックマークしよう！', 5);
