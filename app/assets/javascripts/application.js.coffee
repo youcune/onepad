@@ -8,7 +8,7 @@ EDITED_ON_SAVING = 6; # 保存中に編集された状態（保存完了した�
 MAX_LENGTH = 1024;
 INTERVAL_SECONDS = 61; # 編集後、この時間が経過したら自動保存
 CLIENT_HEIGHT = 600;
-STATUS = VIEWING; IS_CMD_DOWN = false; KEY = null;
+STATUS = VIEWING; IS_CMD_DOWN = false; KEY = null; TIMER_ID = null;
 $ARTICLE = null; $TEXTAREA = null;
 $NOTIFICATION = null; $COUNT = null;
 $GROUP_VIEW = null; $GROUP_EDIT = null;
@@ -38,10 +38,14 @@ switch_to_edit_mode = ->
 calc_count = ->
   rest = MAX_LENGTH - $TEXTAREA.val().length;
   $COUNT.text(rest);
-  if(rest < 100)
-    $COUNT.addClass('warning');
+  if(rest  < 0)
+    $COUNT.css('color', '#ff0000');
+  else if(rest <= 40)
+    $COUNT.css('color', '#ff6666');
+  else if(rest <= 200)
+    $COUNT.css('color', '#ff9999');
   else
-    $COUNT.removeClass('warning');
+    $COUNT.css('color', '');
 
 # APIの応答を画面にマップする
 append_content = (json, updates_textarea) ->
@@ -54,6 +58,7 @@ select = ->
   $.get('/' + KEY + '.json')
     .done (json) ->
       append_content(json, true);
+      calc_count();
       notify('success', 'よみこみました！', 2);
 
 # 作成
@@ -70,7 +75,7 @@ insert = ->
     append_content(json, false);
 
     if window.history && window.history.pushState
-      window.history.pushState("", "" , '/' + json.key);
+      window.history.pushState("", "", '/' + json.key);
     else
       location.href = '/' + json.key
     notify('success', '作成しました！　このURLをいろんな端末にブックマークしよう！', 5);
@@ -129,7 +134,10 @@ notify = (type, message, timer) ->
     .html(message)
     .fadeIn('fast');
   if timer > 0
-    setTimeout (-> hide_notification()), timer * 1000;
+    if TIMER_ID
+      clearTimeout(TIMER_ID);
+      TIMER_ID = null;
+    TIMER_ID = setTimeout (-> hide_notification()), timer * 1000;
 
 hide_notification = ->
   $('#notification').fadeOut('fast');
@@ -141,7 +149,7 @@ $ ->
   $ARTICLE = $('article#content-article').css('height', CLIENT_HEIGHT - 81);
   $TEXTAREA = $('textarea#content-textarea');
   $NOTIFICATION = $('div#notification');
-  $COUNT = $('input#count');
+  $COUNT = $('div#count');
   $GROUP_VIEW = $('.group-view');
   $GROUP_EDIT = $('.group-edit');
   if KEY == 'create'

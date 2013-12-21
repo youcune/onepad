@@ -1,4 +1,6 @@
 class Pad < ActiveRecord::Base
+  LIMIT_PER_MINUTE = 4
+
   scope :active, -> { where(is_deleted: false) }
 
   # validations
@@ -17,13 +19,16 @@ class Pad < ActiveRecord::Base
   end
 
   # smarter save
-  def save
+  def smarter_save
     # populate parameters
     self.key = self.key.presence || Pad.generate_key
     self.revision = self.revision.presence || Time.now.strftime('%Y-%m%d-%H%M')
     self.content = self.content.presence || ''
     self.is_autosaved = self.is_autosaved.presence || false
     self.is_deleted = self.is_deleted.presence || false
+
+    # limit pads a minute
+    raise RetryableError.new(:service_unavailable, 'サーバが混み合っています') if Pad.where(revision: self.revision).count >= LIMIT_PER_MINUTE
 
     # same revision already exists?
     pad = Pad.find_one(key, revision)
@@ -37,18 +42,16 @@ class Pad < ActiveRecord::Base
         # automatically saved pad cannot overwrite manually did one
         return true
       else
-        # destroy pad with same revision
-        pad.destroy!
+        # overwrite existing pad
+        pad.content = self.content
+        pad.is_autosaved = self.is_autosaved
+        pad.is_deleted = self.is_deleted
+        return pad.save
       end
     end
 
     # super save
-    super
-  end
-
-  # smater save!
-  def save!
-    save || raise(RecordNotSaved)
+    self.save
   end
 
   # returns latest pad by key
@@ -69,17 +72,17 @@ class Pad < ActiveRecord::Base
   # returns all pads by key
   def self.find_all(key)
     self.active
-    .where(key: key)
-    .order(:revision)
-    .reverse_order
+      .where(key: key)
+      .order(:revision)
+      .reverse_order
   end
 
   private
     # generate new key
     def self.generate_key
       # TODO キーの存在を確認する(256億あるからいい気もする)
-      chars = 'abcdefghkmnoprstuxyz'
-      Array.new(4){ chars.split('')[rand(chars.size)] }.join + '-' + Array.new(4){ chars.split('')[rand(chars.size)] }.join
+      chars = 'abcdefghkmnoprstuxyz'.split('')
+      (Array.new(4){ chars[rand(chars.size)] } << '-' << Array.new(4){ chars[rand(chars.size)] }).join
     end
 
     # parse as html
@@ -91,4 +94,14 @@ class Pad < ActiveRecord::Base
       str = "<p>#{str}</p>"
       str
     end
+end
+
+# 再試行可能エラーの基底クラス
+class RetryableError < StandardError
+  attr_reader :status
+
+  def initialize(status = :internal_server_error, message)
+    super(message)
+    @status = status
+  end
 end
