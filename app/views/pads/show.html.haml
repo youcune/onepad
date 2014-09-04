@@ -1,0 +1,4 @@
+%form
+  %article#content-article.group-view= @pad.key == 'create' ? @pad.html.html_safe : ''
+  %textarea#content-textarea.group-edit= @pad.key == 'create' ? @pad.content.html_safe : ''
+  %input#key{:name => "key", :type => "hidden", :value => @pad.key}/

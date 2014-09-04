@@ -1,5 +1,159 @@
-/*
- *= require_self
- *= require style
- *= require pictonic
- */
+@charset "UTF-8";
+
+// -------------------------------------------------------------------
+// Dependencies
+// -------------------------------------------------------------------
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+// -------------------------------------------------------------------
+// Core Styles
+// -------------------------------------------------------------------
+$theme-color: #33bbff;
+
+@mixin system-font() {
+  color: #ffffff;
+  font-family: Verdana-Bold, Verdana, sans-serif;
+  font-weight: bold;
+  height: 40px;
+  line-height: 1.2;
+  overflow: hidden;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  border-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: #000000;
+  background: $theme-color;
+
+  header {
+    @include system-font;
+    h1 {
+      margin-left: 16px;
+      font-size: 44px;
+      a {
+        color: #ffffff;
+      }
+      sup {
+        vertical-align: top;
+        font-size: 20px;
+      }
+    }
+  }
+
+  div#notification {
+    border-radius: 0 0 4px 4px;
+    border-style: solid;
+    border-width: 0 1px 1px;
+    display: none;
+    left: 10%;
+    opacity: 0.9;
+    padding: 15px;
+    position: fixed;
+    top: 0;
+    width: 80%;
+  }
+  .alert-success  {
+    background-color: #DFF0D8;
+    border-color: #D6E9C6;
+    color: #468847;
+  }
+  .alert-info  {
+    background-color: #D9EDF7;
+    border-color: #BCE8F1;
+    color: #3A87AD;
+  }
+  .alert-warning  {
+    background-color: #FCF8E3;
+    border-color: #FAEBCC;
+    color: #C09853;
+  }
+  .alert-danger  {
+    background-color: #F2DEDE;
+    border-color: #EBCCD1;
+    color: #B94A48;
+  }
+
+  div#body {
+    margin: 1px 0 0 0;
+    padding: 0 8px;
+
+    article#content-article, textarea#content-textarea {
+      background: #ffffff;
+      border-radius: 4px;
+      color: #333333;
+      font-family: HiraKakuProN-W3, 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', sans-serif;
+      font-size: 1em;
+      line-height: 1.5;
+      overflow: scroll;
+      padding: 8px;
+      width: 100%;
+    }
+
+    article#content-article {
+      h1, h2, h3, h4, h5, h6, p, ul, ol, pre, table {
+        margin-bottom: 0.5em;
+      }
+      h1 {
+        font-size: 150%;
+        font-weight: normal;
+      }
+      h2 {
+        font-size: 125%;
+        font-weight: normal;
+      }
+      h3, h4, h5, h6 {
+        font-size: 100%;
+        font-weight: normal;
+      }
+      ul, ol {
+        margin-left: 2em;
+      }
+      a, a:link, a:visited {
+        color: $theme-color;
+      }
+      a:hover, a:active {
+        color: darken($theme-color, 10%);
+      }
+    }
+  }
+
+  footer {
+    bottom: 0px;
+    position: fixed;
+    width: 100%;
+    #count {
+      @include system-font;
+      font-size: 42px;
+      float: right;
+    }
+    button {
+      background: #ffffff;
+      border-radius: 4px;
+      color: $theme-color;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      height: 24px;
+      margin: 8px 0 8px 8px;
+      padding: 0 8px;
+    }
+    button:hover {
+      color: darken($theme-color, 10%);
+    }
+  }
+}
+@media (max-width: 768px) {
+  .hidden-xs {
+    display: none !important;
+  }
+}

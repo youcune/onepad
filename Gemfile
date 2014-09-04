@@ -10,6 +10,7 @@ gem 'coffee-rails'
 gem 'uglifier'
 gem 'sass-rails'
 gem 'font-awesome-sass'
+gem 'erb2haml'
 
 # Markdown Parser
 gem 'rdiscount'
@@ -25,8 +26,7 @@ group :development, :test do
   # Specs
   gem 'rspec-rails'
   gem 'factory_girl_rails'
-  gem 'faker', require: false
-  gem 'simplecov', require: false
+  gem 'faker'
 
   # CLI Tools
   gem 'spring'

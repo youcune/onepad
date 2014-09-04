@@ -1,0 +1,30 @@
+!!! 5
+%html
+  %head
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "initial-scale=1.0, user-scalable=no", :name => "viewport"}/
+    %meta{:content => "yes", :name => "apple-mobile-web-app-capable"}/
+    - if @pad.key != 'create'
+      %meta{:content => "noindex,nofollow,noarchive", :name => "robots"}/
+    = stylesheet_link_tag 'application'
+    = javascript_include_tag 'application'
+    = favicon_link_tag image_path('favicon.png'), type: 'image/png'
+    = favicon_link_tag image_path('apple-touch-icon.png'), rel: 'apple-touch-icon', type: 'image/png'
+    %title OnePad
+  %body
+    %header
+      %h1
+        = link_to 'OnePad<sup>2.1</sup>'.html_safe, root_path
+    #notification
+    #body
+      = yield
+    %footer
+      #count
+      %button#edit.group-view
+        = icon('pencil', 'Edit')
+      %button#history{:style => "display: none;"}
+        = icon('clock-o', 'History')
+      %button#save.group-edit
+        = icon('save', 'Save')
+      %button#ok.group-edit
+        = icon('power-off', 'Save + Exit')
