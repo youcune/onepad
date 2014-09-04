@@ -1,44 +1,42 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.2'
+gem 'rails', '4.1.5'
 
-# Assets Libraries
-gem 'coffee-rails', '~> 4.0.0'
-gem 'uglifier', '>= 1.3.0'
-gem 'sass-rails', '~> 4.0.0'
-
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 1.2'
+# Views / Assets
+gem 'haml-rails'
+gem 'jbuilder'
+gem 'coffee-rails'
+gem 'uglifier'
+gem 'sass-rails'
+gem 'font-awesome-sass'
+gem 'erb2haml'
 
 # Markdown Parser
 gem 'rdiscount'
 
-# For Development Environments
 group :development, :test do
   # Database
   gem 'sqlite3'
 
-  # For Debugging
+  # Debugging
   gem 'byebug'
   gem 'better_errors'
 
-  # For Testing
-  gem 'rspec', '~> 2.99.0.beta1'
-  gem 'rspec-rails', '~> 2.99.0.beta1'
-  gem 'rspec-kickstarter'
-  gem 'capybara'
-  gem 'turnip'
+  # Specs
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'faker'
 
-  # misc
+  # CLI Tools
   gem 'spring'
+  gem 'spring-commands-rspec'
+  gem 'rspec-kickstarter'
 end
 
-# For Production Environments
 group :staging, :production do
   gem 'pg'
   gem 'unicorn'
   gem 'execjs'
   gem 'therubyracer'
 end
-

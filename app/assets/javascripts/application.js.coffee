@@ -1,3 +1,5 @@
+#= require jquery-2.1.1.min
+
 # constants
 VIEWING = 1; # 編集が開始されていない状態
 NEW = 2; # 新規作成されていない状態
@@ -18,7 +20,7 @@ switch_to_view_mode = ->
   $GROUP_VIEW.show();
   $GROUP_EDIT.hide();
   if STATUS == NEW
-    notify('info', '下にある<span class="icon-edit"></span>ボタンを押すとすぐにメモの編集を始められます！', 5);
+    notify('info', '下の Edit ボタンを押してメモを書き始めましょう！', 5);
   else
     STATUS = VIEWING;
   $TEXTAREA.css('height', CLIENT_HEIGHT - 81);
@@ -28,7 +30,7 @@ switch_to_edit_mode = ->
   $GROUP_VIEW.hide();
   $GROUP_EDIT.show();
   if STATUS == NEW
-    notify('info', '保存するには<span class="icon-save"></span>、保存して終了するには<span class="icon-ok"></span>を押してくださいね！', 8);
+    notify('info', '書いたら Save ボタンで保存できます！', 5);
   else
     STATUS = LOADED;
   if "ontouchend" of window

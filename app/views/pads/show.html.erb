@@ -1,4 +1,0 @@
-<form>
-  <article id="content-article" class="group-view"><%= @pad.key == 'create' ? @pad.html.html_safe : '' %></article>
-  <textarea id="content-textarea" class="group-edit"><%= @pad.key == 'create' ? @pad.content.html_safe : '' %></textarea><input type="hidden" name="key" id="key" value="<%= @pad.key %>">
-</form>
