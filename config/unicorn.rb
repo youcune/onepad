@@ -1,4 +1,3 @@
-env = ENV['RACK_ENV'] || ENV['RAILS_ENV'] || 'staging'
-listen "/apps/onepad/#{env}/tmp/sockets/#{env}.sock"
 worker_processes 3
-pid "/apps/onepad/#{env}/tmp/pids/#{env}.pid"
+listen '/apps/onepad/current/tmp/sockets/socket.sock'
+pid '/apps/onepad/current/tmp/pids/pid.pid'
