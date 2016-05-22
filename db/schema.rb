@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20131026145650) do
 
-  create_table "pads", force: true do |t|
+  create_table "pads", force: :cascade do |t|
     t.string   "key",          limit: 10,   null: false
     t.string   "revision",                  null: false
     t.text     "content",      limit: 1024

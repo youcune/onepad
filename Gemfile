@@ -1,19 +1,24 @@
 source 'https://rubygems.org'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.5'
+# Rails
+gem 'rails', '~> 4.2.6'
 
-# Views / Assets
-gem 'haml-rails'
+# Views
+gem 'hamlit-rails'
 gem 'jbuilder'
+
+# Assets
 gem 'coffee-rails'
-gem 'uglifier'
 gem 'sass-rails'
+gem 'uglifier'
 gem 'font-awesome-sass'
-gem 'erb2haml'
+gem 'therubyracer'
 
 # Markdown Parser
 gem 'rdiscount'
+
+# APP Server
+gem 'puma'
 
 group :development, :test do
   # Database
@@ -36,7 +41,4 @@ end
 
 group :staging, :production do
   gem 'pg'
-  gem 'unicorn'
-  gem 'execjs'
-  gem 'therubyracer'
 end
