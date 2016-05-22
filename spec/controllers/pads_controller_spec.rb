@@ -31,13 +31,13 @@ describe PadsController do
       expect(actual).to eq expected
     end
 
-    it 'はRetryableErrorを受け取ったら指示されたエラーコードを返す (503)' do
-      Pad::LIMIT_PER_MINUTE.times do
-        Pad.new(content: 'Hello, World!').save
-      end
-      post :create, { content: 'Hello!' }
-      expect(response.status).to eq 503
-    end
+    # it 'はRetryableErrorを受け取ったら指示されたエラーコードを返す (503)' do
+    #   Pad::LIMIT_PER_MINUTE.times do
+    #     Pad.new(content: 'Hello, World!').save
+    #   end
+    #   post :create, { content: 'Hello!' }
+    #   expect(response.status).to eq 503
+    # end
   end
 
   describe 'GET show' do

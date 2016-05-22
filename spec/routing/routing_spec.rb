@@ -6,7 +6,7 @@ describe 'Routing' do
   end
 
   it 'POST /create.json to pads#create' do
-    expect(post('/create.json')).to route_to controller: 'pads', action: 'create'
+    expect(post('/create.json')).to route_to controller: 'pads', action: 'create', format: 'json'
   end
 
   it 'GET /:key to pads#show' do
@@ -26,6 +26,6 @@ describe 'Routing' do
   end
 
   it 'PUT /test-pad1.json to pads#update' do
-    expect(put('/test-pad1.json')).to route_to controller: 'pads', action: 'update', key: 'test-pad1'
+    expect(put('/test-pad1.json')).to route_to controller: 'pads', action: 'update', key: 'test-pad1', format: 'json'
   end
 end
